@@ -1,0 +1,76 @@
+name: LinkShelf
+options:
+  bundleIdPrefix: com.geltrax69
+  deploymentTarget:
+    macOS: '14.0'
+  xcodeVersion: '16.0'
+settings:
+  base:
+    SWIFT_VERSION: '6.0'
+    MACOSX_DEPLOYMENT_TARGET: '14.0'
+    CODE_SIGN_STYLE: Automatic
+    GENERATE_INFOPLIST_FILE: YES
+    MARKETING_VERSION: '0.1.0'
+    CURRENT_PROJECT_VERSION: 1
+targets:
+  LinkShelf:
+    type: application
+    platform: macOS
+    sources: [LinkShelf]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.geltrax69.LinkShelf
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.productivity
+        INFOPLIST_KEY_CFBundleDisplayName: LinkShelf
+        ENABLE_APP_SANDBOX: YES
+        CODE_SIGN_ENTITLEMENTS: LinkShelf/Resources/LinkShelf.entitlements
+        DEVELOPMENT_TEAM: D676SQ267J
+        COMBINE_HIDPI_IMAGES: YES
+    dependencies:
+      - target: LinkShelfWidget
+        embed: true
+        codeSign: true
+  LinkShelfWidget:
+    type: app-extension
+    platform: macOS
+    sources:
+      - path: LinkShelfWidget
+        excludes: [Info.plist, LinkShelfWidget.entitlements]
+      - LinkShelf/Shared/Library.swift
+      - LinkShelf/Shared/LinkMetadata.swift
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.geltrax69.LinkShelf.Widget
+        PRODUCT_NAME: LinkShelfWidget
+        ENABLE_APP_SANDBOX: YES
+        CODE_SIGN_ENTITLEMENTS: LinkShelfWidget/LinkShelfWidget.entitlements
+        DEVELOPMENT_TEAM: D676SQ267J
+        SKIP_INSTALL: YES
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_FILE: LinkShelfWidget/Info.plist
+  LinkShelfTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources: [LinkShelfTests]
+    dependencies:
+      - target: LinkShelf
+  LinkShelfUITests:
+    type: bundle.ui-testing
+    platform: macOS
+    sources: [LinkShelfUITests]
+    dependencies:
+      - target: LinkShelf
+schemes:
+  LinkShelf:
+    build:
+      targets:
+        LinkShelf: all
+        LinkShelfWidget: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - LinkShelfTests
+        - LinkShelfUITests
+      gatherCoverageData: true

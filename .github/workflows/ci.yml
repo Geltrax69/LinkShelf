@@ -1,0 +1,21 @@
+name: macOS
+on:
+  push:
+  pull_request:
+jobs:
+  build-and-test:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and test the shared scheme
+        run: >-
+          xcodebuild -project LinkShelf.xcodeproj -scheme LinkShelf
+          -destination 'platform=macOS' -derivedDataPath build/DerivedData
+          -resultBundlePath build/LinkShelf.xcresult
+          test CODE_SIGN_IDENTITY=- CODE_SIGN_STYLE=Manual
+      - name: Save test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: LinkShelf-test-results
+          path: build/LinkShelf.xcresult

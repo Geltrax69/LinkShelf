@@ -1,0 +1,726 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0B03C3A91021DF58B940D980 /* SelectFolderIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A03AB39C5C865F20D6DDD81 /* SelectFolderIntent.swift */; };
+		0C8AE9DF93EDAB37579CA089 /* LibraryNavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C966F342BE54ADD75B3FBD /* LibraryNavigationTests.swift */; };
+		138FC2AB27D5F7231EDBD73B /* LibraryEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 738AFED3C5314722E19D1F4E /* LibraryEmptyView.swift */; };
+		14420CF90A07036B50441FE3 /* LinkShelfApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B792A9038E725479B421A012 /* LinkShelfApp.swift */; };
+		294DC0601A07EE7B6B6F3ACC /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DD0C519DF1DF5F1ED0BAB /* Library.swift */; };
+		2EBF84186F72270787E1B9F2 /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DD0C519DF1DF5F1ED0BAB /* Library.swift */; };
+		5F129FAC15CA16E644EF1E3F /* LibraryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32CAE5C406AE473A5A46F8E /* LibraryStore.swift */; };
+		8BA4211B6AFC95CDD95E7D8E /* LinkShelfWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E505E21938FC03A29B65F88A /* LinkShelfWidget.appex */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8CDA44663DB4C2588488EBA7 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D94FD06F907ECEF62C09D93 /* RootView.swift */; };
+		98346180B0EC59384C5746D0 /* WidgetActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571EB33831938176C9B63D97 /* WidgetActions.swift */; };
+		9D717E3AADCE96B807680F71 /* LibraryDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE1892BF6B497CFA822B57D1 /* LibraryDestination.swift */; };
+		B812D5B7D92ED3FB5720D782 /* LibraryCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA57C181039E8BAAB431612 /* LibraryCommands.swift */; };
+		C648CF050331CDA22EAC47E0 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455FD72DF40B223059698C78 /* SettingsView.swift */; };
+		D48C02BE749E13E8C9E1740D /* LinkMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D87C5924A44312D78A4C8E /* LinkMetadata.swift */; };
+		E3E70BEB478E761A50ABBD73 /* LinkMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D87C5924A44312D78A4C8E /* LinkMetadata.swift */; };
+		E4052E98D9B9F7BEFF623A35 /* AppMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC21B630B6468FBE6235E5E /* AppMetrics.swift */; };
+		F790CD2F4D7EC03F1501A4F2 /* LinkShelfWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A232E9D00683B3AA5BB5CB3 /* LinkShelfWidget.swift */; };
+		F7A505A5345F930D6F6D1894 /* LibraryShellUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F51D72C6AE90DD0480AEA43 /* LibraryShellUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		08135571595FF0D6C6665363 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ACF8CBEAA0E5AD3C6B8BABE5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AC3FA0C9CB2A48AFF42B5140;
+			remoteInfo = LinkShelf;
+		};
+		0D317789499DA0DDBEAEA975 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ACF8CBEAA0E5AD3C6B8BABE5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AFA8E354F567ED216F8F3580;
+			remoteInfo = LinkShelfWidget;
+		};
+		F55EA9316EEBA77D4E176AF7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ACF8CBEAA0E5AD3C6B8BABE5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AC3FA0C9CB2A48AFF42B5140;
+			remoteInfo = LinkShelf;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		9F035A19729758044CB5F16F /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				8BA4211B6AFC95CDD95E7D8E /* LinkShelfWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		2F51D72C6AE90DD0480AEA43 /* LibraryShellUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryShellUITests.swift; sourceTree = "<group>"; };
+		3201636417717B299578EA9C /* LinkShelf.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LinkShelf.entitlements; sourceTree = "<group>"; };
+		334724D44F1BCC53B3E95F94 /* LinkShelfTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LinkShelfTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A03AB39C5C865F20D6DDD81 /* SelectFolderIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectFolderIntent.swift; sourceTree = "<group>"; };
+		3A232E9D00683B3AA5BB5CB3 /* LinkShelfWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkShelfWidget.swift; sourceTree = "<group>"; };
+		3EC21B630B6468FBE6235E5E /* AppMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppMetrics.swift; sourceTree = "<group>"; };
+		455FD72DF40B223059698C78 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		571EB33831938176C9B63D97 /* WidgetActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetActions.swift; sourceTree = "<group>"; };
+		64C966F342BE54ADD75B3FBD /* LibraryNavigationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryNavigationTests.swift; sourceTree = "<group>"; };
+		6C8DD0C519DF1DF5F1ED0BAB /* Library.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Library.swift; sourceTree = "<group>"; };
+		738AFED3C5314722E19D1F4E /* LibraryEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryEmptyView.swift; sourceTree = "<group>"; };
+		7399FFB69DDAD0E9E5AFDD2D /* LinkShelfUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LinkShelfUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		82D87C5924A44312D78A4C8E /* LinkMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkMetadata.swift; sourceTree = "<group>"; };
+		9BA57C181039E8BAAB431612 /* LibraryCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryCommands.swift; sourceTree = "<group>"; };
+		9D94FD06F907ECEF62C09D93 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		B792A9038E725479B421A012 /* LinkShelfApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkShelfApp.swift; sourceTree = "<group>"; };
+		D9A3CF3A2A4909B852806DE3 /* LinkShelf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LinkShelf.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE1892BF6B497CFA822B57D1 /* LibraryDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryDestination.swift; sourceTree = "<group>"; };
+		E505E21938FC03A29B65F88A /* LinkShelfWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LinkShelfWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		F32CAE5C406AE473A5A46F8E /* LibraryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryStore.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		027232EDEB35799E34510FC8 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				6C8DD0C519DF1DF5F1ED0BAB /* Library.swift */,
+				F32CAE5C406AE473A5A46F8E /* LibraryStore.swift */,
+				82D87C5924A44312D78A4C8E /* LinkMetadata.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		2631FD87AFE53A26D71C2605 /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				3EC21B630B6468FBE6235E5E /* AppMetrics.swift */,
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
+		5302654E684B90A1F94EFC17 /* LinkShelfWidget */ = {
+			isa = PBXGroup;
+			children = (
+				3A232E9D00683B3AA5BB5CB3 /* LinkShelfWidget.swift */,
+				3A03AB39C5C865F20D6DDD81 /* SelectFolderIntent.swift */,
+				571EB33831938176C9B63D97 /* WidgetActions.swift */,
+			);
+			path = LinkShelfWidget;
+			sourceTree = "<group>";
+		};
+		580B9441C0ABB88B1F07B23F /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				DE1892BF6B497CFA822B57D1 /* LibraryDestination.swift */,
+				738AFED3C5314722E19D1F4E /* LibraryEmptyView.swift */,
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
+		6C142F2B76227CAB447AA984 /* LinkShelf */ = {
+			isa = PBXGroup;
+			children = (
+				70FB4B68DEDA6359A863DDE1 /* App */,
+				2631FD87AFE53A26D71C2605 /* DesignSystem */,
+				D137CBC72DCB16CAC703BA10 /* Features */,
+				77C5BFC7CD3D6D54342969C5 /* Resources */,
+				027232EDEB35799E34510FC8 /* Shared */,
+			);
+			path = LinkShelf;
+			sourceTree = "<group>";
+		};
+		70FB4B68DEDA6359A863DDE1 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				9BA57C181039E8BAAB431612 /* LibraryCommands.swift */,
+				B792A9038E725479B421A012 /* LinkShelfApp.swift */,
+				9D94FD06F907ECEF62C09D93 /* RootView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		77C5BFC7CD3D6D54342969C5 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3201636417717B299578EA9C /* LinkShelf.entitlements */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		8D549702412D650C66E31681 = {
+			isa = PBXGroup;
+			children = (
+				6C142F2B76227CAB447AA984 /* LinkShelf */,
+				9CA73E1A125B9AC4CB00642A /* LinkShelfTests */,
+				A73E37BE76A4730225161E66 /* LinkShelfUITests */,
+				5302654E684B90A1F94EFC17 /* LinkShelfWidget */,
+				A272884E994921AE423BB66C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		90325C2D34056975990696C4 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				455FD72DF40B223059698C78 /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		9CA73E1A125B9AC4CB00642A /* LinkShelfTests */ = {
+			isa = PBXGroup;
+			children = (
+				64C966F342BE54ADD75B3FBD /* LibraryNavigationTests.swift */,
+			);
+			path = LinkShelfTests;
+			sourceTree = "<group>";
+		};
+		A272884E994921AE423BB66C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D9A3CF3A2A4909B852806DE3 /* LinkShelf.app */,
+				334724D44F1BCC53B3E95F94 /* LinkShelfTests.xctest */,
+				7399FFB69DDAD0E9E5AFDD2D /* LinkShelfUITests.xctest */,
+				E505E21938FC03A29B65F88A /* LinkShelfWidget.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A73E37BE76A4730225161E66 /* LinkShelfUITests */ = {
+			isa = PBXGroup;
+			children = (
+				2F51D72C6AE90DD0480AEA43 /* LibraryShellUITests.swift */,
+			);
+			path = LinkShelfUITests;
+			sourceTree = "<group>";
+		};
+		D137CBC72DCB16CAC703BA10 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				580B9441C0ABB88B1F07B23F /* Library */,
+				90325C2D34056975990696C4 /* Settings */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6E16D80C962E0760359D7CDC /* LinkShelfUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B951C5793C5F24121C1EFB42 /* Build configuration list for PBXNativeTarget "LinkShelfUITests" */;
+			buildPhases = (
+				E64A98E0018A87677197988C /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8F53858C125BD14C633D2996 /* PBXTargetDependency */,
+			);
+			name = LinkShelfUITests;
+			packageProductDependencies = (
+			);
+			productName = LinkShelfUITests;
+			productReference = 7399FFB69DDAD0E9E5AFDD2D /* LinkShelfUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		AC3FA0C9CB2A48AFF42B5140 /* LinkShelf */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8544D82EBCF59D1E51B34A10 /* Build configuration list for PBXNativeTarget "LinkShelf" */;
+			buildPhases = (
+				6063D4BB8ED2E25A68948C6C /* Sources */,
+				9F035A19729758044CB5F16F /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				43BD5F1067C003301B58DB9B /* PBXTargetDependency */,
+			);
+			name = LinkShelf;
+			packageProductDependencies = (
+			);
+			productName = LinkShelf;
+			productReference = D9A3CF3A2A4909B852806DE3 /* LinkShelf.app */;
+			productType = "com.apple.product-type.application";
+		};
+		AFA8E354F567ED216F8F3580 /* LinkShelfWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DDA6719EC878731F3E404C6E /* Build configuration list for PBXNativeTarget "LinkShelfWidget" */;
+			buildPhases = (
+				17B7F9A97B0DE47AE7BC0F8A /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LinkShelfWidget;
+			packageProductDependencies = (
+			);
+			productName = LinkShelfWidget;
+			productReference = E505E21938FC03A29B65F88A /* LinkShelfWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		D6EF3D918A34466DF23D1EE6 /* LinkShelfTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F60A6184054B723CEBB1BA1D /* Build configuration list for PBXNativeTarget "LinkShelfTests" */;
+			buildPhases = (
+				2A1091C08225E8DB4D766451 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C3486E4AA6559316B8BBC8CA /* PBXTargetDependency */,
+			);
+			name = LinkShelfTests;
+			packageProductDependencies = (
+			);
+			productName = LinkShelfTests;
+			productReference = 334724D44F1BCC53B3E95F94 /* LinkShelfTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		ACF8CBEAA0E5AD3C6B8BABE5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					6E16D80C962E0760359D7CDC = {
+						ProvisioningStyle = Automatic;
+						TestTargetID = AC3FA0C9CB2A48AFF42B5140;
+					};
+					AC3FA0C9CB2A48AFF42B5140 = {
+						DevelopmentTeam = D676SQ267J;
+						ProvisioningStyle = Automatic;
+					};
+					AFA8E354F567ED216F8F3580 = {
+						DevelopmentTeam = D676SQ267J;
+						ProvisioningStyle = Automatic;
+					};
+					D6EF3D918A34466DF23D1EE6 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 1762972AF6264A19341691AB /* Build configuration list for PBXProject "LinkShelf" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 8D549702412D650C66E31681;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = A272884E994921AE423BB66C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AC3FA0C9CB2A48AFF42B5140 /* LinkShelf */,
+				AFA8E354F567ED216F8F3580 /* LinkShelfWidget */,
+				D6EF3D918A34466DF23D1EE6 /* LinkShelfTests */,
+				6E16D80C962E0760359D7CDC /* LinkShelfUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		17B7F9A97B0DE47AE7BC0F8A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2EBF84186F72270787E1B9F2 /* Library.swift in Sources */,
+				E3E70BEB478E761A50ABBD73 /* LinkMetadata.swift in Sources */,
+				F790CD2F4D7EC03F1501A4F2 /* LinkShelfWidget.swift in Sources */,
+				0B03C3A91021DF58B940D980 /* SelectFolderIntent.swift in Sources */,
+				98346180B0EC59384C5746D0 /* WidgetActions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2A1091C08225E8DB4D766451 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0C8AE9DF93EDAB37579CA089 /* LibraryNavigationTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6063D4BB8ED2E25A68948C6C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E4052E98D9B9F7BEFF623A35 /* AppMetrics.swift in Sources */,
+				294DC0601A07EE7B6B6F3ACC /* Library.swift in Sources */,
+				B812D5B7D92ED3FB5720D782 /* LibraryCommands.swift in Sources */,
+				9D717E3AADCE96B807680F71 /* LibraryDestination.swift in Sources */,
+				138FC2AB27D5F7231EDBD73B /* LibraryEmptyView.swift in Sources */,
+				5F129FAC15CA16E644EF1E3F /* LibraryStore.swift in Sources */,
+				D48C02BE749E13E8C9E1740D /* LinkMetadata.swift in Sources */,
+				14420CF90A07036B50441FE3 /* LinkShelfApp.swift in Sources */,
+				8CDA44663DB4C2588488EBA7 /* RootView.swift in Sources */,
+				C648CF050331CDA22EAC47E0 /* SettingsView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E64A98E0018A87677197988C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F7A505A5345F930D6F6D1894 /* LibraryShellUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		43BD5F1067C003301B58DB9B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AFA8E354F567ED216F8F3580 /* LinkShelfWidget */;
+			targetProxy = 0D317789499DA0DDBEAEA975 /* PBXContainerItemProxy */;
+		};
+		8F53858C125BD14C633D2996 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AC3FA0C9CB2A48AFF42B5140 /* LinkShelf */;
+			targetProxy = 08135571595FF0D6C6665363 /* PBXContainerItemProxy */;
+		};
+		C3486E4AA6559316B8BBC8CA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AC3FA0C9CB2A48AFF42B5140 /* LinkShelf */;
+			targetProxy = F55EA9316EEBA77D4E176AF7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		19B1877627254161D93AC4BE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = LinkShelfWidget/LinkShelfWidget.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = D676SQ267J;
+				ENABLE_APP_SANDBOX = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LinkShelfWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.geltrax69.LinkShelf.Widget;
+				PRODUCT_NAME = LinkShelfWidget;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		3EB2F9C993C5FC4F7A768BAE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.geltrax69.LinkShelfUITests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = LinkShelf;
+			};
+			name = Release;
+		};
+		6B92B0CD19BB54D6BE10D59A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = LinkShelfWidget/LinkShelfWidget.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = D676SQ267J;
+				ENABLE_APP_SANDBOX = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LinkShelfWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.geltrax69.LinkShelf.Widget;
+				PRODUCT_NAME = LinkShelfWidget;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		72FFA81482EDCEE2D1BA0A9B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LinkShelf/Resources/LinkShelf.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = D676SQ267J;
+				ENABLE_APP_SANDBOX = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = LinkShelf;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.geltrax69.LinkShelf;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		82BE13DC2444C1ED87F1240B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.geltrax69.LinkShelfTests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LinkShelf.app/Contents/MacOS/LinkShelf";
+			};
+			name = Release;
+		};
+		8F221575AD6F2DC920E756B6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.geltrax69.LinkShelfUITests;
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = LinkShelf;
+			};
+			name = Debug;
+		};
+		94592A87F2728B78F049260A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		9D6A103EBD3C6923C048BE30 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LinkShelf/Resources/LinkShelf.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = D676SQ267J;
+				ENABLE_APP_SANDBOX = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = LinkShelf;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.geltrax69.LinkShelf;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		ADD5BA3C376F3075772F2072 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.geltrax69.LinkShelfTests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LinkShelf.app/Contents/MacOS/LinkShelf";
+			};
+			name = Debug;
+		};
+		F6707F7CA734BE9D8F923197 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1762972AF6264A19341691AB /* Build configuration list for PBXProject "LinkShelf" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F6707F7CA734BE9D8F923197 /* Debug */,
+				94592A87F2728B78F049260A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		8544D82EBCF59D1E51B34A10 /* Build configuration list for PBXNativeTarget "LinkShelf" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9D6A103EBD3C6923C048BE30 /* Debug */,
+				72FFA81482EDCEE2D1BA0A9B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		B951C5793C5F24121C1EFB42 /* Build configuration list for PBXNativeTarget "LinkShelfUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8F221575AD6F2DC920E756B6 /* Debug */,
+				3EB2F9C993C5FC4F7A768BAE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		DDA6719EC878731F3E404C6E /* Build configuration list for PBXNativeTarget "LinkShelfWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				19B1877627254161D93AC4BE /* Debug */,
+				6B92B0CD19BB54D6BE10D59A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F60A6184054B723CEBB1BA1D /* Build configuration list for PBXNativeTarget "LinkShelfTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ADD5BA3C376F3075772F2072 /* Debug */,
+				82BE13DC2444C1ED87F1240B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = ACF8CBEAA0E5AD3C6B8BABE5 /* Project object */;
+}
