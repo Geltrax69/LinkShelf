@@ -133,7 +133,7 @@ struct LinkShelfWidgetView: View {
 
     @ViewBuilder private func thumbnail(for link: SavedLink) -> some View {
         let height = thumbnailWidth * 0.62
-        if let file = link.thumbnailFile, let image = NSImage(contentsOf: file) {
+        if let image = link.thumbnailImage {
             Image(nsImage: image)
                 .resizable()
                 .interpolation(.medium)

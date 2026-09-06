@@ -332,7 +332,7 @@ struct Thumbnail: View {
 
     var body: some View {
         Group {
-            if let file = link.thumbnailFile, let image = NSImage(contentsOf: file) {
+            if let image = link.thumbnailImage {
                 Image(nsImage: image).resizable().scaledToFill()
             } else {
                 Image(systemName: "globe")

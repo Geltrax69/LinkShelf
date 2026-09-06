@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		08BDD50697C15249060AC50D /* WidgetActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571EB33831938176C9B63D97 /* WidgetActions.swift */; };
 		0B03C3A91021DF58B940D980 /* SelectFolderIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A03AB39C5C865F20D6DDD81 /* SelectFolderIntent.swift */; };
 		0C8AE9DF93EDAB37579CA089 /* LibraryNavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C966F342BE54ADD75B3FBD /* LibraryNavigationTests.swift */; };
 		138FC2AB27D5F7231EDBD73B /* LibraryEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 738AFED3C5314722E19D1F4E /* LibraryEmptyView.swift */; };
@@ -369,6 +370,7 @@
 				14420CF90A07036B50441FE3 /* LinkShelfApp.swift in Sources */,
 				8CDA44663DB4C2588488EBA7 /* RootView.swift in Sources */,
 				C648CF050331CDA22EAC47E0 /* SettingsView.swift in Sources */,
+				08BDD50697C15249060AC50D /* WidgetActions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -466,7 +468,7 @@
 				CODE_SIGN_ENTITLEMENTS = LinkShelf/Resources/LinkShelf.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = D676SQ267J;
-				ENABLE_APP_SANDBOX = YES;
+				ENABLE_APP_SANDBOX = NO;
 				INFOPLIST_KEY_CFBundleDisplayName = LinkShelf;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -577,7 +579,7 @@
 				CODE_SIGN_ENTITLEMENTS = LinkShelf/Resources/LinkShelf.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = D676SQ267J;
-				ENABLE_APP_SANDBOX = YES;
+				ENABLE_APP_SANDBOX = NO;
 				INFOPLIST_KEY_CFBundleDisplayName = LinkShelf;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				LD_RUNPATH_SEARCH_PATHS = (

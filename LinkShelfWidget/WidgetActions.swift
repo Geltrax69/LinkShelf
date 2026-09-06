@@ -9,6 +9,9 @@ import WidgetKit
 struct AddPastedLinkIntent: AppIntent {
     static var title: LocalizedStringResource { "Add Link from Clipboard" }
     static var description: IntentDescription { "Saves the copied web address to this shelf." }
+    /// Runs in the app, not the widget extension: a sandboxed extension reads
+    /// the clipboard as empty, so the button would silently do nothing.
+    static var openAppWhenRun: Bool { true }
 
     @Parameter(title: "Folder") var folderID: String?
 

@@ -1,3 +1,4 @@
+import AppKit
 import Foundation
 
 struct Folder: Codable, Identifiable, Hashable {
@@ -21,10 +22,13 @@ struct SavedLink: Codable, Identifiable, Hashable {
     var host: String { url.host()?.replacingOccurrences(of: "www.", with: "") ?? url.absoluteString }
 
     /// Downloaded preview image, if one has been cached for this link.
-    var thumbnailFile: URL? {
-        guard thumbnailStamp != nil else { return nil }
-        let file = LibraryFile.thumbnail(for: id)
-        return FileManager.default.fileExists(atPath: file.path) ? file : nil
+    /// Decoded eagerly: WidgetKit archives the view for another process to
+    /// draw, and a file-backed NSImage arrives there empty.
+    var thumbnailImage: NSImage? {
+        guard thumbnailStamp != nil,
+              let data = try? Data(contentsOf: LibraryFile.thumbnail(for: id)),
+              let image = NSImage(data: data) else { return nil }
+        return image
     }
 }
 
@@ -68,7 +72,8 @@ enum LibraryFile {
         if let group = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroup) {
             return group.appending(path: "library.json")
         }
-        return URL.applicationSupportDirectory.appending(path: "LinkShelf/library.json")
+        // Unsandboxed processes can reach the same container by path.
+        return URL.libraryDirectory.appending(path: "Group Containers/\(appGroup)/library.json")
     }
 
     static var thumbnailsDirectory: URL { url.deletingLastPathComponent().appending(path: "Thumbnails") }

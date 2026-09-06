@@ -16,13 +16,15 @@ targets:
   LinkShelf:
     type: application
     platform: macOS
-    sources: [LinkShelf]
+    sources:
+      - LinkShelf
+      - LinkShelfWidget/WidgetActions.swift
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.geltrax69.LinkShelf
         INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.productivity
         INFOPLIST_KEY_CFBundleDisplayName: LinkShelf
-        ENABLE_APP_SANDBOX: YES
+        ENABLE_APP_SANDBOX: NO
         CODE_SIGN_ENTITLEMENTS: LinkShelf/Resources/LinkShelf.entitlements
         DEVELOPMENT_TEAM: D676SQ267J
         COMBINE_HIDPI_IMAGES: YES
