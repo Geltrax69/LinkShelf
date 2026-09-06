@@ -119,7 +119,9 @@ struct LinkShelfWidgetView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-        .containerBackground(.fill.tertiary, for: .widget)
+        // Clear lets the system's own widget material through, which is what
+        // makes Apple's widgets sit on the wallpaper rather than over it.
+        .containerBackground(for: .widget) { Color.clear }
     }
 
     // MARK: - Header
@@ -161,7 +163,7 @@ struct LinkShelfWidgetView: View {
                 .font(.system(size: compact ? 9 : 10, weight: .semibold))
                 .foregroundStyle(.secondary)
                 .frame(width: metrics.chip, height: metrics.chip)
-                .background(.quaternary.opacity(0.5), in: .circle)
+                .background(.quaternary.opacity(0.35), in: .circle)
                 .contentShape(.circle)
         }
         .buttonStyle(.plain)
@@ -175,7 +177,7 @@ struct LinkShelfWidgetView: View {
                 .clipShape(.rect(cornerRadius: radius))
         } else {
             RoundedRectangle(cornerRadius: radius)
-                .fill(.quaternary.opacity(0.6))
+                .fill(.quaternary.opacity(0.45))
                 .frame(width: size, height: size)
                 .overlay(
                     Image(systemName: folder.symbol)
@@ -229,7 +231,7 @@ struct LinkShelfWidgetView: View {
                     .padding(.horizontal, metrics.rowInset)
                     .padding(.vertical, metrics.rowPadding)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(.quaternary.opacity(0.35), in: .rect(cornerRadius: metrics.corner))
+                    .background(.quaternary.opacity(0.22), in: .rect(cornerRadius: metrics.corner))
                     .contentShape(.rect)
                 }
                 .buttonStyle(.plain)
@@ -281,7 +283,7 @@ struct LinkShelfWidgetView: View {
         .padding(.horizontal, metrics.rowInset)
         .padding(.vertical, metrics.rowPadding)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(.quaternary.opacity(0.35), in: .rect(cornerRadius: metrics.corner))
+        .background(.quaternary.opacity(0.22), in: .rect(cornerRadius: metrics.corner))
         .contentShape(.rect)
     }
 
@@ -295,7 +297,7 @@ struct LinkShelfWidgetView: View {
                 .clipShape(.rect(cornerRadius: 6))
         } else {
             RoundedRectangle(cornerRadius: 6)
-                .fill(.quaternary.opacity(0.6))
+                .fill(.quaternary.opacity(0.45))
                 .frame(width: width, height: height)
                 .overlay(
                     Text(link.host.prefix(1).uppercased())
