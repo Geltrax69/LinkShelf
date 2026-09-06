@@ -1,6 +1,16 @@
 # LinkShelf
 
-A native macOS workspace for saved links, with visual folders, previews, and desktop widgets planned in incremental milestones.
+A native macOS workspace for saved links: visual folders, page previews, and configurable desktop widgets.
+
+| The library | Inside a folder |
+| --- | --- |
+| ![Grid view showing three saved links with previews](Docs/Screenshots/app-grid.png) | ![List view of the Design folder, which uses a custom icon](Docs/Screenshots/app-folder.png) |
+
+| Widget: a shelf | Widget: browsing folders |
+| --- | --- |
+| ![Desktop widget listing saved links with thumbnails](Docs/Screenshots/widget-links.png) | ![The same widget showing the folder list with link counts](Docs/Screenshots/widget-folders.png) |
+
+The widget is interactive: **+** opens a small box to save the copied link, a row opens the site in your browser, the folder button browses your folders, and each folder opens to show what is inside.
 
 Requires macOS 14+, Xcode 16+ (Swift Testing), and XcodeGen only when regenerating the project. Developed with Xcode 26.3 / Swift 6.2.4.
 

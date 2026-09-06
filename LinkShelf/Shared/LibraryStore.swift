@@ -10,6 +10,7 @@ final class LibraryStore {
     var lastError: String?
 
     init() {
+        WidgetCenter.shared.reloadAllTimelines()
         // Retry anything whose preview never arrived (offline, slow site).
         for link in library.links where link.thumbnailStamp == nil && !link.trashed {
             Task { await fetchMetadata(for: link.id) }
@@ -117,7 +118,12 @@ final class LibraryStore {
 
     private func save() {
         do {
-            try LibraryFile.save(library)
+            // Where the widgets are browsing is theirs, not ours: keep what is
+            // on disk rather than writing back the value we read at launch.
+            var next = library
+            next.browse = LibraryFile.load().browse
+            library.browse = next.browse
+            try LibraryFile.save(next)
             WidgetCenter.shared.reloadAllTimelines()
         } catch {
             lastError = "Could not save your library: \(error.localizedDescription)"
