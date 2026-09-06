@@ -3,6 +3,27 @@ import AppKit
 import Foundation
 import WidgetKit
 
+/// Move the widgets between the folder list, one folder, and the shelf each
+/// widget is configured for. A widget has no state of its own, so the choice
+/// lives in the shared library file.
+struct BrowseIntent: AppIntent {
+    static var title: LocalizedStringResource { "Browse LinkShelf" }
+    static var openAppWhenRun: Bool { false }
+
+    @Parameter(title: "Target") var target: String?
+
+    init() {}
+    init(target: String?) { self.target = target }
+
+    func perform() async throws -> some IntentResult {
+        var library = LibraryFile.load()
+        library.browse = target
+        try? LibraryFile.save(library)
+        WidgetCenter.shared.reloadAllTimelines()
+        return .result()
+    }
+}
+
 /// Open a saved link in the browser. A widget's `Link` hands the URL to the
 /// containing app instead, which is not what anyone wants from a link shelf.
 struct OpenLinkIntent: AppIntent {
@@ -56,26 +77,23 @@ enum AddLinkRequest {
 /// Folders need a name, and a widget has nowhere to type one — so this asks
 /// for it and then creates the folder without opening the window.
 struct NewFolderIntent: AppIntent {
-    static var title: LocalizedStringResource { "New LinkShelf Folder" }
-    static var description: IntentDescription { "Creates a folder in your library." }
+    static var title: LocalizedStringResource { "New Folder" }
+    static var description: IntentDescription { "Opens a box to name a new folder." }
+    /// Same reason as Add Link: a widget has nowhere to type a name.
+    static var openAppWhenRun: Bool { true }
 
-    @Parameter(title: "Folder name", requestValueDialog: "What should the folder be called?")
-    var name: String
-
-    init() {}
-    init(name: String) { self.name = name }
-
+    @MainActor
     func perform() async throws -> some IntentResult {
-        let clean = name.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !clean.isEmpty else { return .result() }
-        var library = LibraryFile.load()
-        guard !library.folders.contains(where: { $0.name.localizedCaseInsensitiveCompare(clean) == .orderedSame }) else {
-            return .result()
-        }
-        library.folders.append(Folder(name: clean))
-        try? LibraryFile.save(library)
-        WidgetCenter.shared.reloadAllTimelines()
+        NewFolderRequest.post()
         return .result()
+    }
+}
+
+enum NewFolderRequest {
+    static let didPost = Notification.Name("LinkShelfNewFolderRequest")
+
+    @MainActor static func post() {
+        NotificationCenter.default.post(name: didPost, object: nil)
     }
 }
 

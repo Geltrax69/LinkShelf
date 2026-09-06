@@ -16,6 +16,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 QuickAdd.show(folderID: AddLinkRequest.folderID)
             }
         }
+        NotificationCenter.default.addObserver(forName: NewFolderRequest.didPost, object: nil, queue: .main) { _ in
+            MainActor.assumeIsolated {
+                if Date().timeIntervalSince(self.launchedAt) < 5 {
+                    for window in NSApp.windows where window.isVisible { window.close() }
+                }
+                QuickAdd.showNewFolder()
+            }
+        }
     }
 }
 

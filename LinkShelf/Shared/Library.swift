@@ -65,6 +65,9 @@ enum Thumbnails {
 struct Library: Codable {
     var folders: [Folder] = []
     var links: [SavedLink] = []
+    /// What the widgets are showing: nil for each widget's configured shelf,
+    /// "folders" for the folder list, or a folder's UUID string.
+    var browse: String?
 }
 
 /// Shared JSON file, read by the app and the widget extension.

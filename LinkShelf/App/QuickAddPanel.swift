@@ -6,6 +6,20 @@ import SwiftUI
 @MainActor
 enum QuickAdd {
     private static var panel: NSPanel?
+    /// Windows hidden to keep the box on its own; restored when it closes.
+    private static var hidden: [NSWindow] = []
+
+    static func showNewFolder() {
+        let view = QuickAddView(folderName: nil, initialText: "", placeholder: "Folder name",
+                                caption: "Return to create · Escape to close") { name in
+            let store = LibraryStore()
+            store.addFolder(named: name)
+            close()
+        } onCancel: {
+            close()
+        }
+        present(view, title: "New Folder", height: 118)
+    }
 
     static func show(folderID: UUID?) {
         let library = LibraryFile.load()
@@ -13,28 +27,44 @@ enum QuickAdd {
         let clipboard = NSPasteboard.general.string(forType: .string) ?? ""
         let prefill = LinkNormalizer.normalize(clipboard) == nil ? "" : clipboard
 
-        let view = QuickAddView(folderName: folder?.name, initialText: prefill) { text in
-            save(text, folderID: folderID)
+        let view = QuickAddView(folderName: folder?.name, initialText: prefill,
+                                placeholder: "https://example.com",
+                                caption: "Return to save · Escape to close") { text in
+            let store = LibraryStore()
+            guard store.addLink(text, folderID: folderID) != nil else { return }
+            close()
         } onCancel: {
             close()
         }
+        present(view, title: "Add Link", height: folder == nil ? 118 : 138)
+    }
 
+    private static func present(_ view: some View, title: String, height: CGFloat) {
         let panel = self.panel ?? makePanel()
         self.panel = panel
+        panel.title = title
         panel.contentView = NSHostingView(rootView: view)
-        panel.setContentSize(NSSize(width: 420, height: folder == nil ? 118 : 138))
+        panel.setContentSize(NSSize(width: 420, height: height))
         panel.center()
         if let frame = panel.screen?.visibleFrame {
             panel.setFrameOrigin(NSPoint(x: panel.frame.origin.x, y: frame.maxY - panel.frame.height - 120))
         }
+        // The point of this box is not to open the app, so anything else the
+        // app has on screen steps aside until it closes.
+        hidden = NSApp.windows.filter { $0.isVisible && $0 !== panel }
+        for window in hidden { window.orderOut(nil) }
         NSApp.activate()
         panel.makeKeyAndOrderFront(nil)
     }
 
     static func close() {
         panel?.orderOut(nil)
-        // Launched only to show this box? Then there is nothing left to show.
-        if NSApp.windows.allSatisfy({ !$0.isVisible || $0 === panel }) { NSApp.hide(nil) }
+        guard !hidden.isEmpty else {
+            NSApp.hide(nil)
+            return
+        }
+        for window in hidden { window.makeKeyAndOrderFront(nil) }
+        hidden = []
     }
 
     private static func makePanel() -> NSPanel {
@@ -50,23 +80,23 @@ enum QuickAdd {
         return panel
     }
 
-    private static func save(_ text: String, folderID: UUID?) {
-        let store = LibraryStore()
-        guard store.addLink(text, folderID: folderID) != nil else { return }
-        close()
-    }
 }
 
 private struct QuickAddView: View {
     let folderName: String?
+    let placeholder: String
+    let caption: String
     let onSave: (String) -> Void
     let onCancel: () -> Void
 
     @State private var text: String
     @FocusState private var focused: Bool
 
-    init(folderName: String?, initialText: String, onSave: @escaping (String) -> Void, onCancel: @escaping () -> Void) {
+    init(folderName: String?, initialText: String, placeholder: String, caption: String,
+         onSave: @escaping (String) -> Void, onCancel: @escaping () -> Void) {
         self.folderName = folderName
+        self.placeholder = placeholder
+        self.caption = caption
         self.onSave = onSave
         self.onCancel = onCancel
         _text = State(initialValue: initialText)
@@ -74,7 +104,7 @@ private struct QuickAddView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: AppSpacing.small) {
-            TextField("https://example.com", text: $text)
+            TextField(placeholder, text: $text)
                 .textFieldStyle(.roundedBorder)
                 .font(.title3)
                 .focused($focused)
@@ -86,7 +116,7 @@ private struct QuickAddView: View {
                     .foregroundStyle(.secondary)
             }
             HStack {
-                Text("Return to save · Escape to close")
+                Text(caption)
                     .font(.caption)
                     .foregroundStyle(.tertiary)
                 Spacer()
