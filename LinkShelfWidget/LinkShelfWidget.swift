@@ -74,25 +74,38 @@ struct LinkShelfWidgetView: View {
     @Environment(\.widgetFamily) private var family
     let entry: LinkEntry
 
-    private var visibleCount: Int {
-        if entry.showingFolders {
-            switch family {
-            case .systemSmall: 3
-            case .systemMedium: 4
-            default: 6
-            }
-        } else {
-            switch family {
-            case .systemSmall: 3
-            case .systemMedium: 3
-            default: 5
-            }
-        }
-    }
-
+    private var metrics: Metrics { Metrics(family: family) }
     private var compact: Bool { family == .systemSmall }
-    private var thumbnailWidth: CGFloat { compact ? 34 : 62 }
-    private var folderIconSize: CGFloat { compact ? 26 : 34 }
+    private var visibleCount: Int { entry.showingFolders ? metrics.folderRows : metrics.linkRows }
+
+    /// One place to size everything, because a 155pt square and a 345pt tall
+    /// panel need genuinely different numbers, not the same ones scaled.
+    struct Metrics {
+        let family: WidgetFamily
+
+        var small: Bool { family == .systemSmall }
+        var large: Bool { family == .systemLarge || family == .systemExtraLarge }
+
+        var folderRows: Int { small ? 2 : (large ? 6 : 3) }
+        var linkRows: Int { small ? 2 : (large ? 5 : 3) }
+
+        var folderIcon: CGFloat { small ? 24 : (large ? 34 : 30) }
+        var thumbnail: CGFloat { small ? 40 : (large ? 68 : 58) }
+
+        var headerTitle: CGFloat { small ? 12 : 14 }
+        var headerIcon: CGFloat { small ? 15 : 18 }
+        var chip: CGFloat { small ? 17 : 20 }
+
+        var title: CGFloat { small ? 11 : (large ? 13 : 12) }
+        var caption: CGFloat { small ? 9 : 10 }
+        var titleLines: Int { small ? 2 : (large ? 2 : 1) }
+
+        var rowSpacing: CGFloat { small ? 4 : 5 }
+        var rowPadding: CGFloat { small ? 5 : 7 }
+        var rowInset: CGFloat { small ? 6 : 8 }
+        var corner: CGFloat { small ? 8 : 10 }
+        var headerGap: CGFloat { small ? 6 : 8 }
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -112,18 +125,19 @@ struct LinkShelfWidgetView: View {
     // MARK: - Header
 
     private var header: some View {
-        HStack(spacing: 7) {
+        HStack(spacing: compact ? 5 : 7) {
             chip(entry.canGoBack ? "chevron.backward" : "folder",
                  intent: BrowseIntent(target: entry.canGoBack && entry.showingFolders ? nil : "folders"))
 
             if !entry.showingFolders, let folder = entry.folder {
-                icon(for: folder, size: 18, radius: 4)
+                icon(for: folder, size: metrics.headerIcon, radius: metrics.headerIcon * 0.26)
             }
 
             Text(entry.title)
-                .font(.system(size: compact ? 12 : 14, weight: .semibold))
+                .font(.system(size: metrics.headerTitle, weight: .semibold))
                 .foregroundStyle(.primary)
                 .lineLimit(1)
+                .minimumScaleFactor(0.8)
 
             Spacer(minLength: 0)
 
@@ -138,15 +152,15 @@ struct LinkShelfWidgetView: View {
                 chip("plus", intent: AddPastedLinkIntent(folderID: entry.folderID))
             }
         }
-        .padding(.bottom, 8)
+        .padding(.bottom, metrics.headerGap)
     }
 
     private func chip(_ symbol: String, intent: some AppIntent) -> some View {
         Button(intent: intent) {
             Image(systemName: symbol)
-                .font(.system(size: 10, weight: .semibold))
+                .font(.system(size: compact ? 9 : 10, weight: .semibold))
                 .foregroundStyle(.secondary)
-                .frame(width: 20, height: 20)
+                .frame(width: metrics.chip, height: metrics.chip)
                 .background(.quaternary.opacity(0.5), in: .circle)
                 .contentShape(.circle)
         }
@@ -157,8 +171,6 @@ struct LinkShelfWidgetView: View {
         if let image = folder.iconImage {
             Image(nsImage: image)
                 .resizable()
-                .interpolation(.medium)
-                .scaledToFill()
                 .frame(width: size, height: size)
                 .clipShape(.rect(cornerRadius: radius))
         } else {
@@ -176,7 +188,7 @@ struct LinkShelfWidgetView: View {
     // MARK: - Lists
 
     private var linkList: some View {
-        VStack(spacing: 5) {
+        VStack(spacing: metrics.rowSpacing) {
             ForEach(entry.links.prefix(visibleCount)) { link in
                 Button(intent: OpenLinkIntent(address: link.url.absoluteString)) {
                     row(for: link)
@@ -188,7 +200,7 @@ struct LinkShelfWidgetView: View {
     }
 
     private var folderList: some View {
-        VStack(spacing: 5) {
+        VStack(spacing: metrics.rowSpacing) {
             if entry.folderRows.isEmpty {
                 Spacer()
                 Text("No folders yet").font(.caption).foregroundStyle(.secondary)
@@ -197,26 +209,27 @@ struct LinkShelfWidgetView: View {
             }
             ForEach(entry.folderRows.prefix(visibleCount), id: \.folder.id) { row in
                 Button(intent: BrowseIntent(target: row.folder.id.uuidString)) {
-                    HStack(spacing: 9) {
-                        icon(for: row.folder, size: folderIconSize, radius: folderIconSize * 0.26)
+                    HStack(spacing: compact ? 7 : 9) {
+                        icon(for: row.folder, size: metrics.folderIcon, radius: metrics.folderIcon * 0.26)
                         VStack(alignment: .leading, spacing: 1) {
                             Text(row.folder.name)
-                                .font(.system(size: compact ? 12 : 13, weight: .semibold))
+                                .font(.system(size: metrics.title + 1, weight: .semibold))
                                 .foregroundStyle(.primary)
                                 .lineLimit(1)
+                                .minimumScaleFactor(0.75)
                             Text(row.count == 1 ? "1 link" : "\(row.count) links")
-                                .font(.system(size: 10))
+                                .font(.system(size: metrics.caption))
                                 .foregroundStyle(.secondary)
                         }
                         Spacer(minLength: 0)
                         Image(systemName: "chevron.right")
-                            .font(.system(size: 9, weight: .semibold))
+                            .font(.system(size: compact ? 8 : 9, weight: .semibold))
                             .foregroundStyle(.tertiary)
                     }
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 7)
+                    .padding(.horizontal, metrics.rowInset)
+                    .padding(.vertical, metrics.rowPadding)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(.quaternary.opacity(0.35), in: .rect(cornerRadius: 10))
+                    .background(.quaternary.opacity(0.35), in: .rect(cornerRadius: metrics.corner))
                     .contentShape(.rect)
                 }
                 .buttonStyle(.plain)
@@ -229,9 +242,11 @@ struct LinkShelfWidgetView: View {
         VStack {
             Spacer()
             VStack(spacing: 4) {
-                Text("No links yet").font(.caption).foregroundStyle(.secondary)
-                Text("Copy a web address, then press +")
-                    .font(.system(size: 9))
+                Text("No links yet")
+                    .font(.system(size: metrics.title, weight: .medium))
+                    .foregroundStyle(.secondary)
+                Text(compact ? "Copy a link, press +" : "Copy a web address, then press +")
+                    .font(.system(size: metrics.caption))
                     .foregroundStyle(.tertiary)
                     .multilineTextAlignment(.center)
             }
@@ -241,49 +256,50 @@ struct LinkShelfWidgetView: View {
     }
 
     private func row(for link: SavedLink) -> some View {
-        HStack(spacing: 9) {
+        HStack(spacing: compact ? 7 : 9) {
             thumbnail(for: link)
             VStack(alignment: .leading, spacing: 2) {
                 Text(link.title)
-                    .font(.system(size: compact ? 11 : 13, weight: .semibold))
+                    .font(.system(size: metrics.title + 1, weight: .semibold))
                     .foregroundStyle(.primary)
-                    .lineLimit(2)
+                    .lineLimit(metrics.titleLines)
                     .multilineTextAlignment(.leading)
                 HStack(spacing: 4) {
                     Text(link.host)
-                        .font(.system(size: 10))
+                        .font(.system(size: metrics.caption))
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
                     if link.favorite {
-                        Image(systemName: "star.fill").font(.system(size: 8)).foregroundStyle(.yellow)
+                        Image(systemName: "star.fill")
+                            .font(.system(size: metrics.caption - 1))
+                            .foregroundStyle(.yellow)
                     }
                 }
             }
             Spacer(minLength: 0)
         }
-        .padding(.horizontal, 8)
-        .padding(.vertical, 7)
+        .padding(.horizontal, metrics.rowInset)
+        .padding(.vertical, metrics.rowPadding)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(.quaternary.opacity(0.35), in: .rect(cornerRadius: 10))
+        .background(.quaternary.opacity(0.35), in: .rect(cornerRadius: metrics.corner))
         .contentShape(.rect)
     }
 
     @ViewBuilder private func thumbnail(for link: SavedLink) -> some View {
-        let height = thumbnailWidth * 0.64
+        let width = metrics.thumbnail
+        let height = width * 0.64
         if let image = link.thumbnailImage {
             Image(nsImage: image)
                 .resizable()
-                .interpolation(.medium)
-                .scaledToFill()
-                .frame(width: thumbnailWidth, height: height)
+                .frame(width: width, height: height)
                 .clipShape(.rect(cornerRadius: 6))
         } else {
             RoundedRectangle(cornerRadius: 6)
                 .fill(.quaternary.opacity(0.6))
-                .frame(width: thumbnailWidth, height: height)
+                .frame(width: width, height: height)
                 .overlay(
                     Text(link.host.prefix(1).uppercased())
-                        .font(.system(size: 13, weight: .semibold))
+                        .font(.system(size: metrics.title + 2, weight: .semibold))
                         .foregroundStyle(.secondary)
                 )
         }
