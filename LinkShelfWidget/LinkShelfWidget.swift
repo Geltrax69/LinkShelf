@@ -9,6 +9,7 @@ struct LinkEntry: TimelineEntry {
     let links: [SavedLink]
     /// Folder the "+" button files into; nil for All Links and Favorites.
     var folderID: String?
+    var folder: Folder?
 }
 
 struct LinkProvider: AppIntentTimelineProvider {
@@ -39,7 +40,8 @@ struct LinkProvider: AppIntentTimelineProvider {
         let target = ["all", "favorites"].contains(folder.id) ? nil : folder.id
         return LinkEntry(title: folder.name,
                          links: Array(links.sorted { $0.added > $1.added }.prefix(8)),
-                         folderID: target)
+                         folderID: target,
+                         folder: library.folders.first { $0.id.uuidString == folder.id })
     }
 }
 
@@ -60,7 +62,16 @@ struct LinkShelfWidgetView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(spacing: 4) {
-                Image(systemName: "books.vertical.fill").font(.system(size: 10))
+                if let folder = entry.folder, let icon = folder.iconImage {
+                    Image(nsImage: icon)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 13, height: 13)
+                        .clipShape(.rect(cornerRadius: 3))
+                } else {
+                    Image(systemName: entry.folder?.symbol ?? "books.vertical.fill")
+                        .font(.system(size: 10))
+                }
                 Text(entry.title)
                     .font(.caption.weight(.semibold))
                     .lineLimit(1)

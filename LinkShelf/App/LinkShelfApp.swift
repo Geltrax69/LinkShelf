@@ -1,7 +1,27 @@
+import AppKit
 import SwiftUI
+
+/// Bridges the widget's + button to the floating quick-add box, and keeps the
+/// main window out of the way when the app was launched only for that box.
+final class AppDelegate: NSObject, NSApplicationDelegate {
+    private let launchedAt = Date()
+
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        NotificationCenter.default.addObserver(forName: AddLinkRequest.didPost, object: nil, queue: .main) { _ in
+            MainActor.assumeIsolated {
+                // ponytail: a launch this recent can only be the widget's doing.
+                if Date().timeIntervalSince(self.launchedAt) < 5 {
+                    for window in NSApp.windows where window.isVisible { window.close() }
+                }
+                QuickAdd.show(folderID: AddLinkRequest.folderID)
+            }
+        }
+    }
+}
 
 @main
 struct LinkShelfApp: App {
+    @NSApplicationDelegateAdaptor(AppDelegate.self) private var delegate
     private let preferences: UserDefaults
     @AppStorage("appearance") private var appearance = AppAppearance.system.rawValue
 

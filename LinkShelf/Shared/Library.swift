@@ -4,7 +4,20 @@ import Foundation
 struct Folder: Codable, Identifiable, Hashable {
     var id = UUID()
     var name: String
+    /// SF Symbol used when no custom icon has been chosen.
     var symbol: String = "folder"
+    /// Set when a custom icon image is stored for this folder.
+    var iconStamp: Date?
+
+    static let symbolChoices = ["folder", "star", "book", "briefcase", "cart", "gamecontroller", "graduationcap", "heart"]
+
+    /// Decoded eagerly for the same reason link thumbnails are.
+    var iconImage: NSImage? {
+        guard iconStamp != nil,
+              let data = try? Data(contentsOf: LibraryFile.icon(for: id)),
+              let image = NSImage(data: data) else { return nil }
+        return image
+    }
 }
 
 struct SavedLink: Codable, Identifiable, Hashable {
@@ -79,6 +92,10 @@ enum LibraryFile {
     static var thumbnailsDirectory: URL { url.deletingLastPathComponent().appending(path: "Thumbnails") }
 
     static func thumbnail(for id: UUID) -> URL { thumbnailsDirectory.appending(path: "\(id.uuidString).jpg") }
+
+    static var iconsDirectory: URL { url.deletingLastPathComponent().appending(path: "Icons") }
+
+    static func icon(for id: UUID) -> URL { iconsDirectory.appending(path: "\(id.uuidString).jpg") }
 
     static func load() -> Library {
         guard let data = try? Data(contentsOf: url),

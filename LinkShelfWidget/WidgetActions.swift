@@ -49,7 +49,6 @@ enum AddLinkRequest {
 
     @MainActor static func post(folderID: UUID?) {
         Self.folderID = folderID
-        NSApplication.shared.activate()
         NotificationCenter.default.post(name: didPost, object: nil)
     }
 }

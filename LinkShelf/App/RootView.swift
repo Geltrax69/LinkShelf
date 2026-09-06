@@ -45,13 +45,6 @@ struct RootView: View {
                 showingNewFolder = false
             }
         }
-        .onReceive(NotificationCenter.default.publisher(for: AddLinkRequest.didPost)) { _ in
-            if let folder = AddLinkRequest.folderID { selection = .folder(folder) }
-            // The app is unsandboxed, so the clipboard is readable here.
-            let clipboard = NSPasteboard.general.string(forType: .string) ?? ""
-            pastedText = LinkNormalizer.normalize(clipboard) == nil ? "" : clipboard
-            showingAddLink = true
-        }
         .sheet(isPresented: $showingAddLink) {
             NameSheet(title: "Add Link", placeholder: "https://example.com", confirm: "Save",
                       fieldIdentifier: "linkField", initialText: pastedText,
@@ -95,13 +88,28 @@ struct RootView: View {
                         .padding(.vertical, AppSpacing.xSmall)
                 }
                 ForEach(store.folders) { folder in
-                    Label(folder.name, systemImage: folder.symbol)
-                        .badge(store.links(in: .folder(folder.id)).count)
-                        .accessibilityIdentifier("folder.\(folder.name)")
-                        .tag(LibrarySection.folder(folder.id))
-                        .contextMenu {
-                            Button("Delete Folder", role: .destructive) { store.deleteFolder(folder) }
+                    Label {
+                        Text(folder.name)
+                    } icon: {
+                        FolderIcon(folder: folder, size: 16)
+                    }
+                    .badge(store.links(in: .folder(folder.id)).count)
+                    .accessibilityIdentifier("folder.\(folder.name)")
+                    .tag(LibrarySection.folder(folder.id))
+                    .contextMenu {
+                        Button("Choose Icon Image…") { chooseIcon(for: folder) }
+                        Menu("Use a Symbol") {
+                            ForEach(Folder.symbolChoices, id: \.self) { symbol in
+                                Button {
+                                    store.setSymbol(symbol, for: folder)
+                                } label: {
+                                    Label(symbol, systemImage: symbol)
+                                }
+                            }
                         }
+                        Divider()
+                        Button("Delete Folder", role: .destructive) { store.deleteFolder(folder) }
+                    }
                 }
                 Button {
                     showingNewFolder = true
@@ -239,6 +247,15 @@ struct RootView: View {
 
     // MARK: - Sheets and actions
 
+    private func chooseIcon(for folder: Folder) {
+        let panel = NSOpenPanel()
+        panel.allowedContentTypes = [.image]
+        panel.prompt = "Use Icon"
+        panel.message = "Pick an image for “\(folder.name)”."
+        guard panel.runModal() == .OK, let file = panel.url else { return }
+        store.setIcon(from: file, for: folder)
+    }
+
     private func destinationRow(_ item: LibraryDestination) -> some View {
         Label(item.title, systemImage: item.symbol)
             .badge(store.links(in: .destination(item)).count)
@@ -330,6 +347,24 @@ struct LinkRow: View {
         .padding(.vertical, AppSpacing.medium)
         .accessibilityIdentifier("link.\(link.host)")
         .accessibilityElement(children: .combine)
+    }
+}
+
+/// A folder's chosen image, or its symbol.
+struct FolderIcon: View {
+    let folder: Folder
+    var size: CGFloat = 16
+
+    var body: some View {
+        if let image = folder.iconImage {
+            Image(nsImage: image)
+                .resizable()
+                .scaledToFill()
+                .frame(width: size, height: size)
+                .clipShape(.rect(cornerRadius: size * 0.25))
+        } else {
+            Image(systemName: folder.symbol)
+        }
     }
 }
 

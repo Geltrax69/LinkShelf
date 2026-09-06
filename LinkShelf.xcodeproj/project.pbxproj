@@ -22,6 +22,7 @@
 		B812D5B7D92ED3FB5720D782 /* LibraryCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA57C181039E8BAAB431612 /* LibraryCommands.swift */; };
 		C648CF050331CDA22EAC47E0 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455FD72DF40B223059698C78 /* SettingsView.swift */; };
 		D48C02BE749E13E8C9E1740D /* LinkMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D87C5924A44312D78A4C8E /* LinkMetadata.swift */; };
+		D57A7CC9C41F43385C646538 /* QuickAddPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD4D10805A4C6D2D86656EE /* QuickAddPanel.swift */; };
 		E3E70BEB478E761A50ABBD73 /* LinkMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D87C5924A44312D78A4C8E /* LinkMetadata.swift */; };
 		E4052E98D9B9F7BEFF623A35 /* AppMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC21B630B6468FBE6235E5E /* AppMetrics.swift */; };
 		F790CD2F4D7EC03F1501A4F2 /* LinkShelfWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A232E9D00683B3AA5BB5CB3 /* LinkShelfWidget.swift */; };
@@ -82,6 +83,7 @@
 		82D87C5924A44312D78A4C8E /* LinkMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkMetadata.swift; sourceTree = "<group>"; };
 		9BA57C181039E8BAAB431612 /* LibraryCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryCommands.swift; sourceTree = "<group>"; };
 		9D94FD06F907ECEF62C09D93 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		ABD4D10805A4C6D2D86656EE /* QuickAddPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAddPanel.swift; sourceTree = "<group>"; };
 		B792A9038E725479B421A012 /* LinkShelfApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkShelfApp.swift; sourceTree = "<group>"; };
 		D9A3CF3A2A4909B852806DE3 /* LinkShelf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LinkShelf.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE1892BF6B497CFA822B57D1 /* LibraryDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryDestination.swift; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 			children = (
 				9BA57C181039E8BAAB431612 /* LibraryCommands.swift */,
 				B792A9038E725479B421A012 /* LinkShelfApp.swift */,
+				ABD4D10805A4C6D2D86656EE /* QuickAddPanel.swift */,
 				9D94FD06F907ECEF62C09D93 /* RootView.swift */,
 			);
 			path = App;
@@ -368,6 +371,7 @@
 				5F129FAC15CA16E644EF1E3F /* LibraryStore.swift in Sources */,
 				D48C02BE749E13E8C9E1740D /* LinkMetadata.swift in Sources */,
 				14420CF90A07036B50441FE3 /* LinkShelfApp.swift in Sources */,
+				D57A7CC9C41F43385C646538 /* QuickAddPanel.swift in Sources */,
 				8CDA44663DB4C2588488EBA7 /* RootView.swift in Sources */,
 				C648CF050331CDA22EAC47E0 /* SettingsView.swift in Sources */,
 				08BDD50697C15249060AC50D /* WidgetActions.swift in Sources */,

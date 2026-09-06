@@ -65,8 +65,32 @@ final class LibraryStore {
         save()
     }
 
+    func setSymbol(_ symbol: String, for folder: Folder) {
+        guard let index = library.folders.firstIndex(where: { $0.id == folder.id }) else { return }
+        library.folders[index].symbol = symbol
+        library.folders[index].iconStamp = nil
+        try? FileManager.default.removeItem(at: LibraryFile.icon(for: folder.id))
+        save()
+    }
+
+    /// Any image the user picks becomes a small square JPEG in the container,
+    /// so the widget can draw it without reaching outside its sandbox.
+    func setIcon(from file: URL, for folder: Folder) {
+        guard let data = try? Data(contentsOf: file),
+              let small = LinkMetadata.downsampled(data, maxWidth: 128) else {
+            lastError = "That file is not an image LinkShelf can read."
+            return
+        }
+        guard let index = library.folders.firstIndex(where: { $0.id == folder.id }) else { return }
+        try? FileManager.default.createDirectory(at: LibraryFile.iconsDirectory, withIntermediateDirectories: true)
+        try? small.write(to: LibraryFile.icon(for: folder.id), options: .atomic)
+        library.folders[index].iconStamp = Date()
+        save()
+    }
+
     func deleteFolder(_ folder: Folder) {
         library.folders.removeAll { $0.id == folder.id }
+        try? FileManager.default.removeItem(at: LibraryFile.icon(for: folder.id))
         for index in library.links.indices where library.links[index].folderID == folder.id {
             library.links[index].folderID = nil
         }
