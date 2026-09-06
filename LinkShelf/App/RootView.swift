@@ -45,6 +45,13 @@ struct RootView: View {
                 showingNewFolder = false
             }
         }
+        .onReceive(NotificationCenter.default.publisher(for: AddLinkRequest.didPost)) { _ in
+            if let folder = AddLinkRequest.folderID { selection = .folder(folder) }
+            // The app is unsandboxed, so the clipboard is readable here.
+            let clipboard = NSPasteboard.general.string(forType: .string) ?? ""
+            pastedText = LinkNormalizer.normalize(clipboard) == nil ? "" : clipboard
+            showingAddLink = true
+        }
         .sheet(isPresented: $showingAddLink) {
             NameSheet(title: "Add Link", placeholder: "https://example.com", confirm: "Save",
                       fieldIdentifier: "linkField", initialText: pastedText,
@@ -195,7 +202,8 @@ struct RootView: View {
     @ToolbarContentBuilder private var toolbar: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
             Button {
-                pastedText = ""
+                let clipboard = NSPasteboard.general.string(forType: .string) ?? ""
+                pastedText = LinkNormalizer.normalize(clipboard) == nil ? "" : clipboard
                 showingAddLink = true
             } label: {
                 Label("Add Link", systemImage: "plus")

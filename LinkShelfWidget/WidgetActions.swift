@@ -3,14 +3,30 @@ import AppKit
 import Foundation
 import WidgetKit
 
-/// Save whatever URL is on the clipboard straight into the shelf the widget
-/// is showing. A widget cannot host a text field, so the clipboard is the only
-/// way to get a link in without opening the app.
+/// Open a saved link in the browser. A widget's `Link` hands the URL to the
+/// containing app instead, which is not what anyone wants from a link shelf.
+struct OpenLinkIntent: AppIntent {
+    static var title: LocalizedStringResource { "Open Link" }
+    static var openAppWhenRun: Bool { false }
+
+    @Parameter(title: "Address") var address: String
+
+    init() {}
+    init(address: String) { self.address = address }
+
+    func perform() async throws -> some IntentResult {
+        if let url = URL(string: address) { NSWorkspace.shared.open(url) }
+        return .result()
+    }
+}
+
+/// Ask the app to open its Add Link box, filled in from the clipboard when it
+/// holds a web address. A widget cannot host a text field of its own.
 struct AddPastedLinkIntent: AppIntent {
-    static var title: LocalizedStringResource { "Add Link from Clipboard" }
-    static var description: IntentDescription { "Saves the copied web address to this shelf." }
-    /// Runs in the app, not the widget extension: a sandboxed extension reads
-    /// the clipboard as empty, so the button would silently do nothing.
+    static var title: LocalizedStringResource { "Add Link" }
+    static var description: IntentDescription { "Opens LinkShelf's Add Link box for this shelf." }
+    /// Runs in the app: only the app has a text field, and a sandboxed
+    /// extension reads the clipboard as empty anyway.
     static var openAppWhenRun: Bool { true }
 
     @Parameter(title: "Folder") var folderID: String?
@@ -18,33 +34,23 @@ struct AddPastedLinkIntent: AppIntent {
     init() {}
     init(folderID: String?) { self.folderID = folderID }
 
+    @MainActor
     func perform() async throws -> some IntentResult {
-        guard let text = NSPasteboard.general.string(forType: .string),
-              let url = LinkNormalizer.normalize(text) else { return .result() }
-
-        var library = LibraryFile.load()
-        guard !library.links.contains(where: { $0.url == url && !$0.trashed }) else { return .result() }
-
-        let link = SavedLink(url: url,
-                             title: url.host()?.replacingOccurrences(of: "www.", with: "") ?? url.absoluteString,
-                             folderID: folderID.flatMap(UUID.init(uuidString:)))
-        library.links.insert(link, at: 0)
-        try? LibraryFile.save(library)
-        WidgetCenter.shared.reloadAllTimelines()
-
-        // Then fill in the title and preview, which needs the network.
-        let metadata = await LinkMetadata.fetch(for: url)
-        var updated = LibraryFile.load()
-        guard let index = updated.links.firstIndex(where: { $0.id == link.id }) else { return .result() }
-        if let title = metadata.title { updated.links[index].title = title }
-        if let image = metadata.image {
-            try? FileManager.default.createDirectory(at: LibraryFile.thumbnailsDirectory, withIntermediateDirectories: true)
-            try? image.write(to: LibraryFile.thumbnail(for: link.id), options: .atomic)
-            updated.links[index].thumbnailStamp = Date()
-        }
-        try? LibraryFile.save(updated)
-        WidgetCenter.shared.reloadAllTimelines()
+        AddLinkRequest.post(folderID: folderID.flatMap(UUID.init(uuidString:)))
         return .result()
+    }
+}
+
+/// Handed from the widget's + button to whichever window is open.
+enum AddLinkRequest {
+    static let didPost = Notification.Name("LinkShelfAddLinkRequest")
+    /// Set just before the notification; the sheet reads it when it appears.
+    nonisolated(unsafe) static var folderID: UUID?
+
+    @MainActor static func post(folderID: UUID?) {
+        Self.folderID = folderID
+        NSApplication.shared.activate()
+        NotificationCenter.default.post(name: didPost, object: nil)
     }
 }
 

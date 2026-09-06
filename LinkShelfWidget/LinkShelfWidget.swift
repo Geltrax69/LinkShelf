@@ -95,7 +95,10 @@ struct LinkShelfWidgetView: View {
                 VStack(spacing: 0) {
                     ForEach(Array(entry.links.prefix(visibleCount).enumerated()), id: \.element.id) { index, link in
                         if index > 0 { Divider().opacity(0.35) }
-                        Link(destination: link.url) { row(for: link) }
+                        Button(intent: OpenLinkIntent(address: link.url.absoluteString)) {
+                            row(for: link)
+                        }
+                        .buttonStyle(.plain)
                     }
                 }
                 Spacer(minLength: 0)
@@ -144,7 +147,11 @@ struct LinkShelfWidgetView: View {
             RoundedRectangle(cornerRadius: 4)
                 .fill(.quaternary)
                 .frame(width: thumbnailWidth, height: height)
-                .overlay(Image(systemName: "globe").font(.system(size: 9)).foregroundStyle(.secondary))
+                .overlay(
+                    Text(link.host.prefix(1).uppercased())
+                        .font(.system(size: 11, weight: .semibold))
+                        .foregroundStyle(.secondary)
+                )
         }
     }
 }
