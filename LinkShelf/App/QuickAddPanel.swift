@@ -8,6 +8,9 @@ enum QuickAdd {
     private static var panel: NSPanel?
     /// Windows hidden to keep the box on its own; restored when it closes.
     private static var hidden: [NSWindow] = []
+    /// The app's own window is created after the intent runs, so hiding once
+    /// is not enough — watch for latecomers while the box is up.
+    private static var watcher: Any?
 
     static func showNewFolder() {
         let view = QuickAddView(folderName: nil, initialText: "", placeholder: "Folder name",
@@ -39,7 +42,11 @@ enum QuickAdd {
         present(view, title: "Add Link", height: folder == nil ? 118 : 138)
     }
 
+    /// Whether the app already had a window on screen when the box opened.
+    private static var wasOpenBefore = false
+
     private static func present(_ view: some View, title: String, height: CGFloat) {
+        wasOpenBefore = NSApp.windows.contains { $0.isVisible && !($0 is NSPanel) }
         let panel = self.panel ?? makePanel()
         self.panel = panel
         panel.title = title
@@ -53,18 +60,38 @@ enum QuickAdd {
         // app has on screen steps aside until it closes.
         hidden = NSApp.windows.filter { $0.isVisible && $0 !== panel }
         for window in hidden { window.orderOut(nil) }
+        if watcher == nil {
+            watcher = NotificationCenter.default.addObserver(
+                forName: NSWindow.didUpdateNotification, object: nil, queue: .main
+            ) { notification in
+                let window = notification.object as? NSWindow
+                MainActor.assumeIsolated { Self.hideLatecomer(window) }
+            }
+        }
         NSApp.activate()
         panel.makeKeyAndOrderFront(nil)
     }
 
+    private static func hideLatecomer(_ window: NSWindow?) {
+        guard let window, window !== panel, window.isVisible, !(window is NSPanel) else { return }
+        hidden.append(window)
+        window.orderOut(nil)
+    }
+
     static func close() {
+        if let watcher {
+            NotificationCenter.default.removeObserver(watcher)
+            self.watcher = nil
+        }
         panel?.orderOut(nil)
-        guard !hidden.isEmpty else {
+        // Nothing was on screen before, so leave nothing behind.
+        let restore = hidden.filter { $0.isReleasedWhenClosed == false || $0.isVisible }
+        hidden = []
+        guard !restore.isEmpty, wasOpenBefore else {
             NSApp.hide(nil)
             return
         }
-        for window in hidden { window.makeKeyAndOrderFront(nil) }
-        hidden = []
+        for window in restore { window.makeKeyAndOrderFront(nil) }
     }
 
     private static func makePanel() -> NSPanel {

@@ -75,14 +75,24 @@ struct LinkShelfWidgetView: View {
     let entry: LinkEntry
 
     private var visibleCount: Int {
-        switch family {
-        case .systemSmall: 3
-        case .systemMedium: 4
-        default: 7
+        if entry.showingFolders {
+            switch family {
+            case .systemSmall: 3
+            case .systemMedium: 4
+            default: 6
+            }
+        } else {
+            switch family {
+            case .systemSmall: 3
+            case .systemMedium: 3
+            default: 5
+            }
         }
     }
 
-    private var thumbnailWidth: CGFloat { family == .systemSmall ? 30 : 44 }
+    private var compact: Bool { family == .systemSmall }
+    private var thumbnailWidth: CGFloat { compact ? 34 : 62 }
+    private var folderIconSize: CGFloat { compact ? 26 : 34 }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -102,74 +112,72 @@ struct LinkShelfWidgetView: View {
     // MARK: - Header
 
     private var header: some View {
-        HStack(spacing: 4) {
-            if entry.canGoBack {
-                Button(intent: BrowseIntent(target: entry.showingFolders ? nil : "folders")) {
-                    Image(systemName: "chevron.backward")
-                        .font(.system(size: 9, weight: .semibold))
-                        .frame(width: 14, height: 14)
-                        .contentShape(.rect)
-                }
-                .buttonStyle(.plain)
-            } else {
-                Button(intent: BrowseIntent(target: "folders")) {
-                    Image(systemName: "folder")
-                        .font(.system(size: 10))
-                        .frame(width: 14, height: 14)
-                        .contentShape(.rect)
-                }
-                .buttonStyle(.plain)
-                .help("Browse folders")
-            }
+        HStack(spacing: 7) {
+            chip(entry.canGoBack ? "chevron.backward" : "folder",
+                 intent: BrowseIntent(target: entry.canGoBack && entry.showingFolders ? nil : "folders"))
 
-            if let icon = entry.folder?.iconImage {
-                Image(nsImage: icon)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 13, height: 13)
-                    .clipShape(.rect(cornerRadius: 3))
-            } else if let symbol = entry.folder?.symbol {
-                Image(systemName: symbol).font(.system(size: 10))
+            if !entry.showingFolders, let folder = entry.folder {
+                icon(for: folder, size: 18, radius: 4)
             }
 
             Text(entry.title)
-                .font(.caption.weight(.semibold))
+                .font(.system(size: compact ? 12 : 14, weight: .semibold))
+                .foregroundStyle(.primary)
                 .lineLimit(1)
+
             Spacer(minLength: 0)
 
             if entry.showingFolders {
-                Button(intent: NewFolderIntent()) {
-                    Image(systemName: "folder.badge.plus")
-                        .font(.system(size: 10, weight: .semibold))
-                        .frame(width: 16, height: 16)
-                        .contentShape(.rect)
-                }
-                .buttonStyle(.plain)
-                .help("New folder")
+                chip("folder.badge.plus", intent: NewFolderIntent())
             } else {
-                if entry.links.count > visibleCount {
-                    Text("\(entry.links.count)").font(.caption2)
+                if !compact, entry.links.count > visibleCount {
+                    Text("+\(entry.links.count - visibleCount)")
+                        .font(.system(size: 10, weight: .medium))
+                        .foregroundStyle(.secondary)
                 }
-                Button(intent: AddPastedLinkIntent(folderID: entry.folderID)) {
-                    Image(systemName: "plus")
-                        .font(.system(size: 10, weight: .semibold))
-                        .frame(width: 16, height: 16)
-                        .contentShape(.rect)
-                }
-                .buttonStyle(.plain)
-                .help("Add a link to this shelf")
+                chip("plus", intent: AddPastedLinkIntent(folderID: entry.folderID))
             }
         }
-        .foregroundStyle(.secondary)
-        .padding(.bottom, 6)
+        .padding(.bottom, 8)
+    }
+
+    private func chip(_ symbol: String, intent: some AppIntent) -> some View {
+        Button(intent: intent) {
+            Image(systemName: symbol)
+                .font(.system(size: 10, weight: .semibold))
+                .foregroundStyle(.secondary)
+                .frame(width: 20, height: 20)
+                .background(.quaternary.opacity(0.5), in: .circle)
+                .contentShape(.circle)
+        }
+        .buttonStyle(.plain)
+    }
+
+    @ViewBuilder private func icon(for folder: Folder, size: CGFloat, radius: CGFloat) -> some View {
+        if let image = folder.iconImage {
+            Image(nsImage: image)
+                .resizable()
+                .interpolation(.medium)
+                .scaledToFill()
+                .frame(width: size, height: size)
+                .clipShape(.rect(cornerRadius: radius))
+        } else {
+            RoundedRectangle(cornerRadius: radius)
+                .fill(.quaternary.opacity(0.6))
+                .frame(width: size, height: size)
+                .overlay(
+                    Image(systemName: folder.symbol)
+                        .font(.system(size: size * 0.5))
+                        .foregroundStyle(.secondary)
+                )
+        }
     }
 
     // MARK: - Lists
 
     private var linkList: some View {
-        VStack(spacing: 0) {
-            ForEach(Array(entry.links.prefix(visibleCount).enumerated()), id: \.element.id) { index, link in
-                if index > 0 { Divider().opacity(0.35) }
+        VStack(spacing: 5) {
+            ForEach(entry.links.prefix(visibleCount)) { link in
                 Button(intent: OpenLinkIntent(address: link.url.absoluteString)) {
                     row(for: link)
                 }
@@ -180,39 +188,35 @@ struct LinkShelfWidgetView: View {
     }
 
     private var folderList: some View {
-        VStack(spacing: 0) {
+        VStack(spacing: 5) {
             if entry.folderRows.isEmpty {
                 Spacer()
                 Text("No folders yet").font(.caption).foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity)
                 Spacer()
             }
-            ForEach(Array(entry.folderRows.prefix(visibleCount).enumerated()), id: \.element.folder.id) { index, row in
-                if index > 0 { Divider().opacity(0.35) }
+            ForEach(entry.folderRows.prefix(visibleCount), id: \.folder.id) { row in
                 Button(intent: BrowseIntent(target: row.folder.id.uuidString)) {
-                    HStack(spacing: 7) {
-                        if let icon = row.folder.iconImage {
-                            Image(nsImage: icon)
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 22, height: 22)
-                                .clipShape(.rect(cornerRadius: 5))
-                        } else {
-                            RoundedRectangle(cornerRadius: 5)
-                                .fill(.quaternary)
-                                .frame(width: 22, height: 22)
-                                .overlay(Image(systemName: row.folder.symbol).font(.system(size: 11)))
+                    HStack(spacing: 9) {
+                        icon(for: row.folder, size: folderIconSize, radius: folderIconSize * 0.26)
+                        VStack(alignment: .leading, spacing: 1) {
+                            Text(row.folder.name)
+                                .font(.system(size: compact ? 12 : 13, weight: .semibold))
+                                .foregroundStyle(.primary)
+                                .lineLimit(1)
+                            Text(row.count == 1 ? "1 link" : "\(row.count) links")
+                                .font(.system(size: 10))
+                                .foregroundStyle(.secondary)
                         }
-                        Text(row.folder.name)
-                            .font(.system(size: family == .systemSmall ? 11 : 12, weight: .medium))
-                            .foregroundStyle(.primary)
-                            .lineLimit(1)
                         Spacer(minLength: 0)
-                        Text("\(row.count)").font(.system(size: 10)).foregroundStyle(.secondary)
-                        Image(systemName: "chevron.right").font(.system(size: 8)).foregroundStyle(.tertiary)
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 9, weight: .semibold))
+                            .foregroundStyle(.tertiary)
                     }
-                    .padding(.vertical, 5)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 7)
                     .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(.quaternary.opacity(0.35), in: .rect(cornerRadius: 10))
                     .contentShape(.rect)
                 }
                 .buttonStyle(.plain)
@@ -237,47 +241,49 @@ struct LinkShelfWidgetView: View {
     }
 
     private func row(for link: SavedLink) -> some View {
-        HStack(spacing: 7) {
+        HStack(spacing: 9) {
             thumbnail(for: link)
-            VStack(alignment: .leading, spacing: 1) {
+            VStack(alignment: .leading, spacing: 2) {
                 Text(link.title)
-                    .font(.system(size: family == .systemSmall ? 10 : 12, weight: .medium))
+                    .font(.system(size: compact ? 11 : 13, weight: .semibold))
                     .foregroundStyle(.primary)
-                    .lineLimit(family == .systemSmall ? 2 : 1)
+                    .lineLimit(2)
                     .multilineTextAlignment(.leading)
-                if family != .systemSmall {
+                HStack(spacing: 4) {
                     Text(link.host)
                         .font(.system(size: 10))
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
+                    if link.favorite {
+                        Image(systemName: "star.fill").font(.system(size: 8)).foregroundStyle(.yellow)
+                    }
                 }
             }
             Spacer(minLength: 0)
-            if link.favorite {
-                Image(systemName: "star.fill").font(.system(size: 8)).foregroundStyle(.yellow)
-            }
         }
-        .padding(.vertical, 5)
+        .padding(.horizontal, 8)
+        .padding(.vertical, 7)
         .frame(maxWidth: .infinity, alignment: .leading)
+        .background(.quaternary.opacity(0.35), in: .rect(cornerRadius: 10))
         .contentShape(.rect)
     }
 
     @ViewBuilder private func thumbnail(for link: SavedLink) -> some View {
-        let height = thumbnailWidth * 0.62
+        let height = thumbnailWidth * 0.64
         if let image = link.thumbnailImage {
             Image(nsImage: image)
                 .resizable()
                 .interpolation(.medium)
                 .scaledToFill()
                 .frame(width: thumbnailWidth, height: height)
-                .clipShape(.rect(cornerRadius: 4))
+                .clipShape(.rect(cornerRadius: 6))
         } else {
-            RoundedRectangle(cornerRadius: 4)
-                .fill(.quaternary)
+            RoundedRectangle(cornerRadius: 6)
+                .fill(.quaternary.opacity(0.6))
                 .frame(width: thumbnailWidth, height: height)
                 .overlay(
                     Text(link.host.prefix(1).uppercased())
-                        .font(.system(size: 11, weight: .semibold))
+                        .font(.system(size: 13, weight: .semibold))
                         .foregroundStyle(.secondary)
                 )
         }
